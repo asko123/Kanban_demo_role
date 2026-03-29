@@ -10,34 +10,29 @@ export function Sidebar() {
   const role = useBoardStore((s) => s.role);
 
   return (
-    <aside className="relative w-[300px] shrink-0">
-      {/* Animated gradient left edge */}
-      <div className="absolute left-0 top-4 bottom-4 w-[1px] overflow-hidden">
-        <motion.div
-          className="absolute w-full"
-          style={{
-            height: "50%",
-            background: "linear-gradient(180deg, transparent, rgba(45,212,191,0.5), rgba(167,139,250,0.3), transparent)",
-          }}
-          animate={{ top: ["-50%", "100%"] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
-
+    <aside className="relative w-[310px] shrink-0">
       <div className="
-        h-full rounded-xl overflow-y-auto max-h-[calc(100vh-96px)]
-        backdrop-blur-2xl bg-white/[0.04] border border-white/[0.1]
-        shadow-[0_0_30px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.06)]
-        glass-shimmer relative
+        relative h-full rounded-2xl overflow-y-auto max-h-[calc(100vh-104px)]
+        backdrop-blur-2xl
+        bg-gradient-to-b from-white/[0.06] to-white/[0.02]
+        border border-white/[0.1]
+        shadow-[0_0_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]
+        glow-border glow-border-slow
       ">
+        {/* Top highlight */}
+        <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+        {/* Holographic shimmer */}
+        <div className="absolute inset-0 rounded-2xl holo-shimmer pointer-events-none" />
+
         <AnimatePresence mode="wait">
           <motion.div
             key={role}
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 12 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="p-4 space-y-4"
+            initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="relative p-5 space-y-5"
           >
             {role === "product-owner" && <ProductOwnerSidebar />}
             {role === "scrum-master" && <ScrumMasterSidebar />}

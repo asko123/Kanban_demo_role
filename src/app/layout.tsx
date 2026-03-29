@@ -15,9 +15,8 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Kanban Dashboard — Role-Adaptive Board",
-  description:
-    "A role-adaptive Kanban dashboard with views for Product Owner, Scrum Master, and Developer",
+  title: "NEXUSBOARD — AI-Powered Kanban",
+  description: "Role-adaptive Kanban dashboard with AI insights",
 };
 
 export default function RootLayout({
@@ -30,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${sourceCodePro.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0D0F12] text-slate-200">
+      <body className="min-h-full flex flex-col bg-[#030306] text-slate-200 overflow-x-hidden">
         {children}
       </body>
     </html>

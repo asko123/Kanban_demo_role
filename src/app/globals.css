@@ -1,153 +1,150 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #05060a;
+  --color-background: #030306;
   --color-foreground: #E2E8F0;
-  --color-surface: #0a0d14;
-  --color-accent: #2DD4BF;
-  --color-accent-secondary: #A78BFA;
-  --color-warning: #F59E0B;
-  --color-cyan: #22d3ee;
   --font-sans: "Outfit", system-ui, sans-serif;
   --font-mono: "Source Code Pro", "JetBrains Mono", monospace;
 }
 
-html {
-  color-scheme: dark;
-}
+html { color-scheme: dark; }
 
 body {
-  background: var(--color-background);
+  background: #030306;
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
-/* Animated gradient border */
-@property --angle {
+/* ═══════════ ANIMATED GRADIENT BORDER SYSTEM ═══════════ */
+@property --border-angle {
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
 
-@keyframes rotate-gradient {
-  to { --angle: 360deg; }
+@keyframes spin-border {
+  to { --border-angle: 360deg; }
 }
 
-.border-glow {
-  --angle: 0deg;
-  border-image: conic-gradient(
-    from var(--angle),
-    rgba(45,212,191,0.3),
-    rgba(167,139,250,0.3),
-    rgba(34,211,238,0.2),
-    rgba(167,139,250,0.3),
-    rgba(45,212,191,0.3)
-  ) 1;
-  animation: rotate-gradient 6s linear infinite;
+.glow-border {
+  --border-angle: 0deg;
+  position: relative;
+  z-index: 0;
 }
 
-/* Scanning line animation */
-@keyframes scan {
-  0% { transform: translateY(-100%); }
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(45,212,191,0.5),
+    rgba(34,211,238,0.15),
+    rgba(167,139,250,0.5),
+    rgba(34,211,238,0.15),
+    rgba(45,212,191,0.5)
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  animation: spin-border 4s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glow-border-slow::before {
+  animation-duration: 8s;
+}
+
+.glow-border-fast::before {
+  animation-duration: 2s;
+}
+
+/* Hover-only animated border */
+.glow-border-hover::before {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.glow-border-hover:hover::before {
+  opacity: 1;
+}
+
+/* ═══════════ AURORA BACKGROUND ═══════════ */
+@keyframes aurora {
+  0%, 100% {
+    background-position: 0% 50%;
+    background-size: 200% 200%;
+  }
+  25% {
+    background-position: 100% 0%;
+    background-size: 250% 250%;
+  }
+  50% {
+    background-position: 100% 100%;
+    background-size: 200% 200%;
+  }
+  75% {
+    background-position: 0% 100%;
+    background-size: 250% 250%;
+  }
+}
+
+/* ═══════════ SCANNING LINE ═══════════ */
+@keyframes scan-sweep {
+  0% { transform: translateY(-100vh); }
   100% { transform: translateY(100vh); }
 }
 
-.scan-line {
-  animation: scan 4s linear infinite;
-}
-
-/* Pulse glow for AI elements */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(45,212,191,0.15), 0 0 20px rgba(45,212,191,0.05);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(45,212,191,0.3), 0 0 40px rgba(45,212,191,0.1);
-  }
-}
-
-.ai-pulse {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* Neon text glow */
-.neon-text {
-  text-shadow: 0 0 7px rgba(45,212,191,0.4), 0 0 20px rgba(45,212,191,0.15);
-}
-
-.neon-text-violet {
-  text-shadow: 0 0 7px rgba(167,139,250,0.4), 0 0 20px rgba(167,139,250,0.15);
-}
-
-/* Animated gradient background for glass panels */
-@keyframes shimmer {
+/* ═══════════ HOLOGRAPHIC SHIMMER ═══════════ */
+@keyframes holo-shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
-.glass-shimmer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
+.holo-shimmer {
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(45,212,191,0.03) 25%,
-    rgba(167,139,250,0.03) 50%,
-    rgba(34,211,238,0.03) 75%,
-    transparent 100%
+    105deg,
+    transparent 40%,
+    rgba(45,212,191,0.06) 45%,
+    rgba(167,139,250,0.06) 50%,
+    rgba(34,211,238,0.06) 55%,
+    transparent 60%
   );
   background-size: 200% 100%;
-  animation: shimmer 8s ease-in-out infinite;
-  pointer-events: none;
+  animation: holo-shimmer 6s ease-in-out infinite;
 }
 
-/* Typewriter cursor for AI text */
-@keyframes blink-cursor {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+/* ═══════════ TEXT EFFECTS ═══════════ */
+.text-glow {
+  text-shadow: 0 0 10px rgba(45,212,191,0.6), 0 0 30px rgba(45,212,191,0.2), 0 0 60px rgba(45,212,191,0.1);
 }
 
-.ai-cursor::after {
-  content: "▋";
-  color: rgba(45,212,191,0.6);
-  animation: blink-cursor 1s step-end infinite;
-  margin-left: 2px;
+.text-glow-violet {
+  text-shadow: 0 0 10px rgba(167,139,250,0.6), 0 0 30px rgba(167,139,250,0.2);
 }
 
-/* Data stream effect */
-@keyframes data-stream {
-  0% { opacity: 0; transform: translateY(-8px); }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(8px); }
+/* ═══════════ PULSE ═══════════ */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* Scrollbar styling */
+/* ═══════════ SCROLLBAR ═══════════ */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: rgba(45,212,191,0.12) transparent;
+  scrollbar-color: rgba(45,212,191,0.15) transparent;
 }
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+.scrollbar-thin::-webkit-scrollbar { width: 3px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(45,212,191,0.15);
+  background: linear-gradient(180deg, rgba(45,212,191,0.2), rgba(167,139,250,0.2));
   border-radius: 4px;
 }
 
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: rgba(45,212,191,0.3);
-}
-
 ::selection {
-  background: rgba(45,212,191,0.25);
-  color: #E2E8F0;
+  background: rgba(45,212,191,0.3);
+  color: #fff;
 }
