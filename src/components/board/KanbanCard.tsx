@@ -15,7 +15,6 @@ import {
 import { KanbanCard as CardType, PRIORITY_COLORS } from "@/types";
 import { useBoardStore } from "@/store";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { currentDeveloper } from "@/data/team";
 
 interface Props {
   card: CardType;
@@ -24,6 +23,7 @@ interface Props {
 
 export function KanbanCardComponent({ card, index }: Props) {
   const role = useBoardStore((s) => s.role);
+  const currentDevId = useBoardStore((s) => s.currentDevId);
   const toggleSubtask = useBoardStore((s) => s.toggleSubtask);
   const assignCard = useBoardStore((s) => s.assignCard);
   const reduced = useReducedMotion();
@@ -243,10 +243,10 @@ export function KanbanCardComponent({ card, index }: Props) {
               </div>
             ) : role === "developer" ? (
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  assignCard(card.id, currentDeveloper.id);
-                }}
+              onClick={(e) => {
+                e.stopPropagation();
+                assignCard(card.id, currentDevId);
+              }}
                 className="flex items-center gap-1 text-[10px] text-slate-600 hover:text-teal-400 transition-colors opacity-0 group-hover:opacity-100"
               >
                 <User className="w-3 h-3" />

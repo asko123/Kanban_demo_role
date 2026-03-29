@@ -1,16 +1,20 @@
 "use client";
 
 import { create } from "zustand";
-import { Role, KanbanCard, CardStatus } from "@/types";
+import { Role, KanbanCard, CardStatus, TeamMember } from "@/types";
 import { cards as initialCards } from "@/data/cards";
+import { team } from "@/data/team";
 
 interface BoardState {
   role: Role;
   cards: KanbanCard[];
+  currentDevId: string;
   myTasksFilter: boolean;
   epicFilter: string | null;
 
   setRole: (role: Role) => void;
+  setCurrentDev: (devId: string) => void;
+  getCurrentDev: () => TeamMember;
   moveCard: (cardId: string, newStatus: CardStatus) => void;
   toggleBlocker: (cardId: string, reason: string | null) => void;
   toggleSubtask: (cardId: string, subtaskId: string) => void;
@@ -19,13 +23,21 @@ interface BoardState {
   setEpicFilter: (epic: string | null) => void;
 }
 
-export const useBoardStore = create<BoardState>((set) => ({
+export const useBoardStore = create<BoardState>((set, get) => ({
   role: "product-owner",
   cards: initialCards,
+  currentDevId: "tm-1",
   myTasksFilter: false,
   epicFilter: null,
 
   setRole: (role) => set({ role, myTasksFilter: false, epicFilter: null }),
+
+  setCurrentDev: (devId) => set({ currentDevId: devId, myTasksFilter: false }),
+
+  getCurrentDev: () => {
+    const state = get();
+    return team.find((t) => t.id === state.currentDevId) ?? team[0];
+  },
 
   moveCard: (cardId, newStatus) =>
     set((state) => ({
@@ -62,11 +74,10 @@ export const useBoardStore = create<BoardState>((set) => ({
     })),
 
   assignCard: (cardId, memberId) =>
-    set((state) => {
-      const { team } = require("@/data/team");
-      const member = team.find((t: { id: string }) => t.id === memberId) ?? null;
+    set(() => {
+      const member = team.find((t) => t.id === memberId) ?? null;
       return {
-        cards: state.cards.map((c) =>
+        cards: get().cards.map((c) =>
           c.id === cardId ? { ...c, assignee: member } : c
         ),
       };

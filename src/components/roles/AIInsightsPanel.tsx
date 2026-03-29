@@ -43,10 +43,11 @@ const INSIGHT_CONFIG: Record<
 export function AIInsightsPanel() {
   const role = useBoardStore((s) => s.role);
   const boardCards = useBoardStore((s) => s.cards);
+  const currentDevId = useBoardStore((s) => s.currentDevId);
   const [expanded, setExpanded] = useState(true);
   const [expandedInsight, setExpandedInsight] = useState<string | null>(null);
 
-  const insights = getInsightsForRole(role, boardCards);
+  const insights = getInsightsForRole(role, boardCards, currentDevId);
 
   const riskCount = insights.filter((i) => i.type === "risk" || i.type === "warning").length;
 

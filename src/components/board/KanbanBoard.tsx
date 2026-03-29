@@ -11,12 +11,12 @@ import {
 } from "@dnd-kit/core";
 import { COLUMN_ORDER, CardStatus } from "@/types";
 import { useBoardStore } from "@/store";
-import { currentDeveloper } from "@/data/team";
 import { KanbanColumn } from "./KanbanColumn";
 
 export function KanbanBoard() {
   const cards = useBoardStore((s) => s.cards);
   const role = useBoardStore((s) => s.role);
+  const currentDevId = useBoardStore((s) => s.currentDevId);
   const myTasksFilter = useBoardStore((s) => s.myTasksFilter);
   const epicFilter = useBoardStore((s) => s.epicFilter);
   const moveCard = useBoardStore((s) => s.moveCard);
@@ -48,7 +48,7 @@ export function KanbanBoard() {
   let filteredCards = cards;
   if (myTasksFilter && role === "developer") {
     filteredCards = filteredCards.filter(
-      (c) => c.assignee?.id === currentDeveloper.id
+      (c) => c.assignee?.id === currentDevId
     );
   }
   if (epicFilter) {

@@ -144,9 +144,9 @@ function analyzeForScrumMaster(boardCards: KanbanCard[]): Insight[] {
   return insights;
 }
 
-function analyzeForDeveloper(boardCards: KanbanCard[]): Insight[] {
+function analyzeForDeveloper(boardCards: KanbanCard[], devId?: string): Insight[] {
   const insights: Insight[] = [];
-  const myId = "tm-1";
+  const myId = devId ?? "tm-1";
   const myCards = boardCards.filter((c) => c.assignee?.id === myId);
   const myInProgress = myCards.filter((c) => c.status === "in_progress");
   const myReview = myCards.filter((c) => c.status === "review");
@@ -215,7 +215,7 @@ function analyzeForDeveloper(boardCards: KanbanCard[]): Insight[] {
   return insights;
 }
 
-export function getInsightsForRole(role: Role, boardCards?: KanbanCard[]): Insight[] {
+export function getInsightsForRole(role: Role, boardCards?: KanbanCard[], devId?: string): Insight[] {
   const data = boardCards ?? cards;
   switch (role) {
     case "product-owner":
@@ -223,6 +223,6 @@ export function getInsightsForRole(role: Role, boardCards?: KanbanCard[]): Insig
     case "scrum-master":
       return analyzeForScrumMaster(data);
     case "developer":
-      return analyzeForDeveloper(data);
+      return analyzeForDeveloper(data, devId);
   }
 }
