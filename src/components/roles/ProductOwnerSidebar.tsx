@@ -5,6 +5,7 @@ import { useBoardStore } from "@/store";
 import { getReleaseProgress, getEpicProgress, getPriorityDistribution } from "@/data/metrics";
 import { EPICS, PRIORITY_COLORS } from "@/types";
 import { VelocityChart } from "../charts/VelocityChart";
+import { AIInsightsPanel } from "./AIInsightsPanel";
 
 function SidebarSection({
   title,
@@ -111,6 +112,9 @@ export function ProductOwnerSidebar() {
           ))}
         </div>
       </SidebarSection>
+
+      {/* AI Insights */}
+      <AIInsightsPanel />
 
       {/* Velocity Trend */}
       <SidebarSection title="Velocity Trend" icon={TrendingUp}>

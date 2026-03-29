@@ -10,6 +10,7 @@ import {
 import { useBoardStore } from "@/store";
 import { getPersonalStats } from "@/data/metrics";
 import { currentDeveloper } from "@/data/team";
+import { AIInsightsPanel } from "./AIInsightsPanel";
 
 function SidebarSection({
   title,
@@ -119,6 +120,9 @@ export function DeveloperSidebar() {
           </div>
         </div>
       </SidebarSection>
+
+      {/* AI Insights */}
+      <AIInsightsPanel />
 
       {/* Code Review Requests */}
       <SidebarSection

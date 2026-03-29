@@ -16,6 +16,7 @@ import {
 import { currentSprint } from "@/data/sprints";
 import { BurndownChart } from "../charts/BurndownChart";
 import { CFDChart } from "../charts/CFDChart";
+import { AIInsightsPanel } from "./AIInsightsPanel";
 
 function SidebarSection({
   title,
@@ -169,6 +170,9 @@ export function ScrumMasterSidebar() {
           ))}
         </div>
       </SidebarSection>
+
+      {/* AI Insights */}
+      <AIInsightsPanel />
 
       {/* CFD */}
       <SidebarSection title="Cumulative Flow" icon={BarChart3}>
